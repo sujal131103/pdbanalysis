@@ -1,24 +1,43 @@
+from pdb_io import read_atoms
 
+models = read_atoms("6B1E.pdb")
 
-'''residues = read_pdb("6B1E.pdb")
+print("Total Models:", len(models))
 
-print("Total residues:", len(residues))
-print("\nFirst residue atoms:")
-for atom in residues[1]:
-    print(atom)'''
+for model in models:
+    print("\n==============================")
+    print("Model ID:", model.id)
+    print("Number of Chains:", len(model.chains))
 
-from pdb_io import read_pdb
+    for chain in model.chains:
+        print("\n  Chain ID:", chain.id)
+        print("  Number of Residues:", len(chain.residues))
 
-residues = read_pdb("6B1E.pdb")
-print(residues[2:5])
-print("Total residues:", len(residues))
+        for residue in chain.residues:
+            print(
+                "    Residue:",
+                residue.resname,
+                residue.resnum,
+                "Chain:",
+                residue.chain,
+                "Atoms:",
+                len(residue.atoms)
+            )
 
-residue1 = residues[2]
-residue2 = residues[45]
-
-min_dist = residue1.minimum_distance(residue2)
-print("Minimum distance between residue 2 and 50:", min_dist)
-
-for chain in chain :
-    for residue in chain.residue:
-        print (residue)
+            for atom in residue.atoms:
+                print(
+                    "      Atom:",
+                    atom.serial,
+                    atom.name,
+                    "Res:",
+                    atom.resname,
+                    atom.resnum,
+                    "Chain:",
+                    atom.chain,
+                    "Coords:",
+                    f"({atom.x:.3f}, {atom.y:.3f}, {atom.z:.3f})",
+                    "B-factor:",
+                    atom.bfactor,
+                    "Occupancy:",
+                    atom.occup
+                )
